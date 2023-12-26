@@ -1,15 +1,16 @@
-import Head from 'next/head'
+import { useTranslation } from 'next-i18next'
+
+// MyComponents
+import Meta from "@/components/Meta"
 
 const Home = () => {
 
+  const { t } = useTranslation()
+
   return (
     <>
-      <Head>
-        <title>B.T.W | WebApp</title>
-        <meta name="description" content="Portfolio" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    {/* TODO change meta title to suit your project */}
+      <Meta pageTitle={t('STRID_cmn_pagetitle').replace('{var}', 'Project Title')}/>
       <div>
         <h1>Hello, NextJs!!!</h1>
       </div>
