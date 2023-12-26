@@ -7,11 +7,14 @@ const Meta = (props: { pageTitle: string }) => {
   return (
     <Head>
       <title>{ pageTitle }</title>
-      <meta name='description' content='Shared Calendar' />
+      {/* TODO change content description to suit your project */}
+      <meta name='description' content='change description' />
       <meta charSet='UTF-8' />
       <meta http-equiv='Content-Language' content='ja' />
-      <meta property='og:title' content='Shared Calendar' />
-      <meta property='og:description' content='Share Calendar with your friends' />
+      {/* TODO change title to suit your project */}
+      <meta property='og:title' content='change title' />
+      {/* TODO change description to suit your project*/}
+      <meta property='og:description' content='change description' />
       {/* TODO change url images path */}
       <meta property='og:image' content='/favicon.ico' />
       {/* TODO change prod url */}
