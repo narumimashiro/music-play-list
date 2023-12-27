@@ -34,7 +34,7 @@ export const useInnerSize = () => {
 
 export const useOrientation = () => {
   const windowSize = useInnerSize()
-  return windowSize >= ORIENTATION.PORTRAIT.SIZE ? ORIENTATION.PORTRAIT.HARD : ORIENTATION.LANDSCAPE.HARD
+  return windowSize <= ORIENTATION.PORTRAIT.SIZE ? ORIENTATION.PORTRAIT.HARD : ORIENTATION.LANDSCAPE.HARD
 }
 
 export const useTabletSize = () => {
