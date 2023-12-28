@@ -1,13 +1,17 @@
 import type { AppProps } from 'next/app'
+import { useEffect } from 'react'
 
 // Recoil
 import { RecoilRoot } from 'recoil'
+
+// hooks
+import { useLocaleSlug, I18NEXT_LOCALE } from '@/hooks/useLocaleSlug'
 
 // MyComponents
 import Layout from '@/components/molecules/Layout'
 
 // i18next
-import { appWithTranslation } from 'next-i18next'
+import { appWithTranslation, useTranslation } from 'next-i18next'
 import '@/locales/config'
 
 // Styles
@@ -32,6 +36,13 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   const theme = useThemeStyle()
   const selectedTheme = theme ? darkTheme : lightTheme
+  const locale = useLocaleSlug()
+  const { i18n } = useTranslation()
+
+  useEffect(() => {
+    i18n.changeLanguage(locale)
+    localStorage.setItem(I18NEXT_LOCALE, locale)
+  }, [i18n, locale])
 
   return (
     <RecoilRoot>
