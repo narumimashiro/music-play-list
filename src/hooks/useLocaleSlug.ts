@@ -3,6 +3,7 @@
  * get router query locale
  */
 
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 export const VALID_LOCALE = ['ja-jp', 'en-us']
@@ -16,11 +17,11 @@ export const useLocaleSlug = () => {
 }
 
 export const useDefaultLocale = () => {
-  let userDefaultLang = 'ja'
+  const [defaultLocale, setDefaultLocale] = useState('ja')
 
-  if (typeof window !== 'undefined') {
-    userDefaultLang = window.navigator.language
-  }
+  useEffect(() => {
+    setDefaultLocale(window.navigator.language)
+  }, [])
 
-  return userDefaultLang
+  return defaultLocale
 }
