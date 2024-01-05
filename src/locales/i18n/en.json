@@ -1,4 +1,6 @@
 {
   "STRID_cmn_pagetitle": "{var} | B.T.W",
-  "STRID_not_found": "NotFound"
+  "STRID_not_found": "NotFound",
+  "STRID_click_to_continue": "Click to Continue",
+  "STRID_tap_to_continue": "Tap to Continue"
 }
