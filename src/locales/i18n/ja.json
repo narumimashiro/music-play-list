@@ -2,5 +2,7 @@
   "STRID_cmn_pagetitle": "{var} | B.T.W",
   "STRID_not_found": "ページが見つかりません",
   "STRID_click_to_continue": "クリックして続ける",
-  "STRID_tap_to_continue": "タップして続ける"
+  "STRID_tap_to_continue": "タップして続ける",
+  "STRID_menulist": "メニューリスト",
+  "STRID_prsk_music_list": "プロセカ ミュージックリスト"
 }
