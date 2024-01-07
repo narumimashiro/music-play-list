@@ -44,7 +44,7 @@ const MainPage = () => {
 
   return (
     <>
-      <Meta pageTitle={t('STRID_cmn_pagetitle').replace('{var}', 'Top')} />
+      <Meta pageTitle={t('STRID_cmn_pagetitle').replace('{var}', t('STRID_top'))} />
       <div className={`flex-center invisible-scroll ${styles.container}`}>
         <Toolbar className={styles.contents}>
           <Typography variant="h6" component="div" sx={{fontWeight: 'bold', fontSize: '24px'}}>

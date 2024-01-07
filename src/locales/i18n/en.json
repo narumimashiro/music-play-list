@@ -1,8 +1,13 @@
 {
   "STRID_cmn_pagetitle": "{var} | B.T.W",
+  "STRID_top": "Top",
+  "STRID_prsk_music": "prsk Music",
   "STRID_not_found": "NotFound",
   "STRID_click_to_continue": "Click to Continue",
   "STRID_tap_to_continue": "Tap to Continue",
   "STRID_menulist": "Menu List",
-  "STRID_prsk_music_list": "projectSEKAI MusicList"
+  "STRID_prsk_music_list": "projectSEKAI MusicList",
+  "STRID_original": "Original",
+  "STRID_sekai3d": "3DMV",
+  "STRID_sekai2d": "2DMV"
 }

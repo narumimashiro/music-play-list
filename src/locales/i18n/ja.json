@@ -1,8 +1,13 @@
 {
   "STRID_cmn_pagetitle": "{var} | B.T.W",
+  "STRID_top": "トップ",
+  "STRID_prsk_music": "プロセカ プレイリスト",
   "STRID_not_found": "ページが見つかりません",
   "STRID_click_to_continue": "クリックして続ける",
   "STRID_tap_to_continue": "タップして続ける",
   "STRID_menulist": "メニューリスト",
-  "STRID_prsk_music_list": "プロセカ ミュージックリスト"
+  "STRID_prsk_music_list": "プロセカ ミュージックリスト",
+  "STRID_original": "オリジナル",
+  "STRID_sekai3d": "3DMV",
+  "STRID_sekai2d": "2DMV"
 }
