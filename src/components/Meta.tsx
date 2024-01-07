@@ -7,15 +7,11 @@ const Meta = (props: { pageTitle: string }) => {
   return (
     <Head>
       <title>{ pageTitle }</title>
-      {/* TODO change content description to suit your project */}
-      <meta name='description' content='change description' />
+      <meta name='description' content='music list' />
       <meta charSet='UTF-8' />
       <meta http-equiv='Content-Language' content='ja' />
-      {/* TODO change title to suit your project */}
-      <meta property='og:title' content='change title' />
-      {/* TODO change description to suit your project*/}
-      <meta property='og:description' content='change description' />
-      {/* TODO change url images path */}
+      <meta property='og:title' content='music list' />
+      <meta property='og:description' content='search and listen music easily' />
       <meta property='og:image' content='/favicon.ico' />
       {/* TODO change prod url */}
       <meta property='og:url' content={`${process.env.PROD_URL}`} />

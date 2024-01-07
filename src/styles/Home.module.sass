@@ -1,0 +1,57 @@
+$animation-count: 1.25s
+
+.wrap
+  height: 100svh
+  overflow: hidden
+
+.bannerWrap
+  height: 100svh
+  max-width: 960px
+
+.bannerItem
+  object-fit: cover
+  height: 20%
+
+  .cardItem
+    height: 100%
+    border-radius: 0
+    &.right
+      --translateX: 100%
+      animation: $animation-count linear slideCard
+    &.left
+      --translateX: -100%
+      animation: $animation-count linear slideCard
+    img
+      height: 100%
+      opacity: .39
+
+@keyframes slideCard
+  0%
+    transform: translateX(var(--translateX))
+    opacity: 0
+  100%
+    transform: translateX(0)
+    opacity: 1
+
+.textWrap
+  position: fixed
+  z-index: 1
+  width: 100%
+  height: 100%
+  
+  .continueText
+    animation: blink 2s infinite
+    font-weight: bold
+    text-align: center
+    position: absolute
+    width: 100%
+    height: 40%
+    bottom: 0
+
+@keyframes blink
+  0%
+    opacity: 0
+  50%
+    opacity: 1
+  100%
+    opacity: 0
