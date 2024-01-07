@@ -6,7 +6,7 @@ import styles from '@/styles/PrskMusic.module.sass'
 // MyComponents
 import Meta from '@/components/Meta'
 import { Clock } from '@/components/atom/Time'
-import { YoutubeIframe } from '@/components/atom/Youtube'
+import { YoutubeIframe, PlayYTModal } from '@/components/atom/Youtube'
 import { Loading } from '@/components/atom/Loading'
 
 // recoil
@@ -76,6 +76,7 @@ const PlayingMusic = (props: PlayingMusicType) => {
   const SEKAI3D = 'sekai_3d'
   const SEKAI2D = 'sekai_2d'
   const MAX = 96
+  const [modalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
     if(youtubeRef.current) {
@@ -156,13 +157,31 @@ const PlayingMusic = (props: PlayingMusicType) => {
               aria-labelledby='select music type bar'
             />
           </div>
-          <Box>
-            <IconButton aria-label='previous'><SkipPreviousIcon sx={{fontSize: 36}}/></IconButton>
-            <IconButton aria-label='play/pause'><PlayArrowIcon sx={{fontSize: 48}}/></IconButton>
-            <IconButton aria-label='next'><SkipNextIcon sx={{fontSize: 36}}/></IconButton>
+          <Box sx={{mb: '25px'}}>
+            <IconButton
+              aria-label='previous'
+            >
+              <SkipPreviousIcon sx={{fontSize: 36}}/>
+            </IconButton>
+            <IconButton
+              aria-label='play/pause'
+              onClick={() => setModalOpen(true)}
+            >
+              <PlayArrowIcon sx={{fontSize: 48}}/>
+            </IconButton>
+            <IconButton
+              aria-label='next'
+            >
+              <SkipNextIcon sx={{fontSize: 36}}/>
+            </IconButton>
           </Box>
         </CardContent>
       </Card>
+      <PlayYTModal
+        open={modalOpen}
+        srcID={musicSrc}
+        onClose={() => setModalOpen(false)}
+      />
     </>
   )
 }
@@ -204,10 +223,10 @@ const PrskMusic = () => {
   }, [])
 
   useEffect(() => {
-    if(status === API_STATUS.SUCCESS) {
+    if(status === API_STATUS.SUCCESS || isAcquired) {
       setCurrentMusic(musicList[0])
     }
-  }, [musicList, status])
+  }, [musicList, status, isAcquired])
 
   const selectMusic = (music: PrskMusicListType) => {
     setCurrentMusic(music)
@@ -219,7 +238,7 @@ const PrskMusic = () => {
       <div className={`flex-center ${styles.container}`}>
         <div className={styles.contents}>
           {
-            status === API_STATUS.SUCCESS && currentMusic ? (
+            currentMusic ? (
               <>
                 <SortList
                   musiclist={musicList}

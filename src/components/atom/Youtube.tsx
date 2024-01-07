@@ -1,4 +1,10 @@
 
+// MaterialUI
+import {
+  Modal,
+  Box
+} from '@mui/material'
+
 type YoutubeIframeType = {
   srcID: string,
   autoPlay: boolean,
@@ -18,5 +24,45 @@ export const YoutubeIframe = (props: YoutubeIframeType) => {
       allowFullScreen
       id='ytplayer'
     />
+  )
+}
+
+type PlayYTModalType = {
+  open: boolean
+  srcID: string
+  onClose: () => void
+}
+
+export const PlayYTModal = (props: PlayYTModalType) => {
+
+  const { open, srcID, onClose } = props
+
+  return (
+    <>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby='play youtube modal'
+        aria-describedby='play youtube'
+      >
+        <Box
+          className='flex-center'
+          sx={{
+            width: '80%',
+            aspectRatio: 1.77 / 1,
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <YoutubeIframe
+            srcID={srcID}
+            autoPlay={true}
+            mute={false}
+          />
+        </Box>
+      </Modal>
+    </>
   )
 }
