@@ -10,8 +10,21 @@ import { YoutubeIframe, PlayYTModal } from '@/components/atom/Youtube'
 import { Loading } from '@/components/atom/Loading'
 
 // recoil
-import { useRecoilValue } from 'recoil'
-import { PrskMusicListType, prskMusicList, acquiredList } from '@/recoil/prskMusicList'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import {
+  ALL,
+  VIRTUAL,
+  LEONEED,
+  MOREMOREJUMP,
+  VIVIDBADSQUARE,
+  WONDERLANDS_SHOWTIME,
+  NIGHTCODE,
+  PrskMusicListType,
+  prskMusicList,
+  acquiredList,
+  selectUnit,
+  sortMusicList
+} from '@/recoil/prskMusicList'
 import GetPrskMusicList from '@/recoil/services/getPrskMusicList'
 
 // hooks
@@ -29,13 +42,17 @@ import {
   Typography,
   Grid,
   Slider,
-  IconButton
+  IconButton,
+  Toolbar,
+  Button
 } from '@mui/material'
 import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded'
 import Battery3BarRoundedIcon from '@mui/icons-material/Battery3BarRounded'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = VALID_LOCALE.map(locale => ({
@@ -187,22 +204,88 @@ const PlayingMusic = (props: PlayingMusicType) => {
 }
 
 type SortListType = {
-  musiclist: PrskMusicListType[],
-  selectMusic: (music: PrskMusicListType) => void
+  onSelectMusic: (music: PrskMusicListType) => void
+}
+
+type IndexInfoType = {
+  unitcolor: string,
+  img: string
 }
 
 const SortList = (props: SortListType) => {
 
-  const { musiclist, selectMusic } = props
+  const { onSelectMusic } = props
+  const [sortMinimize, setSortMinimize] = useState(false)
+  const selectUnitId = useSetRecoilState(selectUnit)
+  const sortList = useRecoilValue(sortMusicList)
+
+  const indexInfo: {[key: string]: IndexInfoType} = {
+    [VIRTUAL]: {
+      unitcolor: '#FFFFFF',
+      img: '/images/logo_virtual.png'
+    },
+    [LEONEED]: {
+      unitcolor: '#4455DD',
+      img: '/images/logo_leoneed.png'
+    },
+    [MOREMOREJUMP]: {
+      unitcolor: '#88DD44',
+      img: '/images/logo_moremore.png'
+    },
+    [VIVIDBADSQUARE]: {
+      unitcolor: '#EE1166',
+      img: '/images/logo_vivid.png'
+    },
+    [WONDERLANDS_SHOWTIME]: {
+      unitcolor: '#FF9900',
+      img: '/images/logo_wonderlands.png'
+    },
+    [NIGHTCODE]: {
+      unitcolor: '#884499',
+      img: '/images/logo_nightcode.png'
+    }
+  }
 
   return (
     <div className={`invisible-scroll ${styles.sortList}`}>
-      {musiclist.map((el, index) => (
-        <div key={index} onClick={() => selectMusic(el)}>
-          <h3>{el.music_title}</h3>
-          <p>{`${el.artist_name} / ${el.unit_name.unit} × ${el.unit_name.feat}`}</p>
-        </div>
-      ))}
+      <Toolbar className={styles.indexUnit}>
+        {
+          sortMinimize ? (
+            <IconButton aria-label='maximize button'>
+              <ChevronRightIcon onClick={() => setSortMinimize(false)} />
+            </IconButton>
+          ) : (
+            <IconButton aria-label='minimize button'>
+              <ChevronLeftIcon onClick={() => setSortMinimize(true)} fontSize='large' />
+            </IconButton>
+          )
+        }
+        <Button
+          className={styles.allButton}
+          onClick={() => selectUnitId(ALL)}
+        >
+          <label>ALL</label>
+        </Button>
+        {
+          Object.entries(indexInfo).map(([key, value]) => (
+            <Button
+              key={key}
+              className={styles.unitButton}
+              onClick={() => selectUnitId(key)}
+            >
+              <img src={value.img} alt={key} />
+            </Button>
+          ))
+        }
+      </Toolbar>
+      <div>
+        {sortList.map((el, index) => (
+          <div key={index} onClick={() => onSelectMusic(el)}>
+            <h3>{el.music_title}</h3>
+            <p>{`${el.artist_name} / ${el.unit_name.unit} × ${el.unit_name.feat}`}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -241,8 +324,7 @@ const PrskMusic = () => {
             currentMusic ? (
               <>
                 <SortList
-                  musiclist={musicList}
-                  selectMusic={selectMusic}
+                  onSelectMusic={selectMusic}
                 />
                 <PlayingMusic
                   currentMusic={currentMusic}

@@ -12,9 +12,7 @@ export const ORIENTATION = {
 }
 
 export const useInnerSize = () => {
-  if (typeof window === 'undefined') return 0
-  
-  const [windowSize, setWindowSize] = useState(window.innerWidth)
+  const [windowSize, setWindowSize] = useState(0)
 
   const handlerResize = () => {
     setWindowSize(window.innerWidth)
