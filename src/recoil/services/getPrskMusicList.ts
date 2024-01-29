@@ -24,9 +24,9 @@ const GetPrskMusicList = () => {
 
       const result = await response.json()
     
-      setSuccess()
-
       setMusicList(result)
+
+      setSuccess()
 
     } catch(err) {
       setFailed()

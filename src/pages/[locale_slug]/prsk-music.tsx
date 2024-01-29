@@ -30,6 +30,7 @@ import GetPrskMusicList from '@/recoil/services/getPrskMusicList'
 // hooks
 import { VALID_LOCALE } from '@/hooks/useLocaleSlug'
 import { API_STATUS } from '@/hooks/useApiStatus'
+import { useThemeStyle } from '@/hooks/useThemeStyle'
 
 // lib
 // import { ConsoleLog } from '@/lib/logging'
@@ -44,7 +45,9 @@ import {
   Slider,
   IconButton,
   Toolbar,
-  Button
+  Button,
+  List,
+  ListItemButton
 } from '@mui/material'
 import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded'
 import Battery3BarRoundedIcon from '@mui/icons-material/Battery3BarRounded'
@@ -203,7 +206,41 @@ const PlayingMusic = (props: PlayingMusicType) => {
   )
 }
 
-type SortListType = {
+type MusicCardType = {
+  musicInfo: PrskMusicListType
+  onSelect: () => void
+  unitColor: string
+}
+
+const MusicCard = (props: MusicCardType) => {
+
+  const { musicInfo, onSelect, unitColor } = props
+  const [isOverText, setIsOverText] = useState(false)
+  const textRef = useRef<HTMLLabelElement>(null)
+  const textContainerRef = useRef<HTMLLabelElement>(null)
+
+  useEffect(() => {
+    const textWidth = textRef.current ? textRef.current.offsetWidth : 0
+    const containerWidth = textContainerRef.current ? textContainerRef.current.offsetWidth : 0
+    setIsOverText(textWidth > containerWidth)
+  },[])
+
+  return (
+    <ListItemButton onClick={onSelect} className={styles.musicCard}>
+      <label
+        ref={textContainerRef}
+        className={`${styles.musicCardHeader} ${isOverText ? styles.scrollText : ''}`}>
+        <span className='text-xl-bold'>{musicInfo.music_title}</span>
+        <div className={styles.webHorizon} style={{color: unitColor}}/>
+        <label ref={textRef} className={`text-base ${styles.artistInfo}`}>
+          <span>{`${musicInfo.artist_name} / ${musicInfo.unit_name.unit} × ${musicInfo.unit_name.feat}`}</span>
+        </label>
+      </label>
+    </ListItemButton>
+  )
+}
+
+type MusicListType = {
   onSelectMusic: (music: PrskMusicListType) => void
 }
 
@@ -212,16 +249,17 @@ type IndexInfoType = {
   img: string
 }
 
-const SortList = (props: SortListType) => {
+const MusicList = (props: MusicListType) => {
 
   const { onSelectMusic } = props
   const [sortMinimize, setSortMinimize] = useState(false)
   const selectUnitId = useSetRecoilState(selectUnit)
   const sortList = useRecoilValue(sortMusicList)
+  const isDark = useThemeStyle()
 
   const indexInfo: {[key: string]: IndexInfoType} = {
     [VIRTUAL]: {
-      unitcolor: '#FFFFFF',
+      unitcolor: '#7d7d7d',
       img: '/images/logo_virtual.png'
     },
     [LEONEED]: {
@@ -246,17 +284,29 @@ const SortList = (props: SortListType) => {
     }
   }
 
+  const getUnitColor = (unit: string) => {
+    switch(unit) {
+    case VIRTUAL: return indexInfo[VIRTUAL].unitcolor
+    case LEONEED: return indexInfo[LEONEED].unitcolor
+    case MOREMOREJUMP: return indexInfo[MOREMOREJUMP].unitcolor
+    case VIVIDBADSQUARE: return indexInfo[VIVIDBADSQUARE].unitcolor
+    case WONDERLANDS_SHOWTIME: return indexInfo[WONDERLANDS_SHOWTIME].unitcolor
+    case NIGHTCODE: return indexInfo[NIGHTCODE].unitcolor
+    default: return isDark ? '#FFF' : '#000'
+    }
+  }
+
   return (
-    <div className={`invisible-scroll ${styles.sortList}`}>
+    <div className={styles.musicList}>
       <Toolbar className={styles.indexUnit}>
         {
           sortMinimize ? (
-            <IconButton aria-label='maximize button'>
-              <ChevronRightIcon onClick={() => setSortMinimize(false)} />
+            <IconButton aria-label='maximize button' onClick={() => setSortMinimize(false)}>
+              <ChevronRightIcon />
             </IconButton>
           ) : (
-            <IconButton aria-label='minimize button'>
-              <ChevronLeftIcon onClick={() => setSortMinimize(true)} fontSize='large' />
+            <IconButton aria-label='minimize button' onClick={() => setSortMinimize(true)}>
+              <ChevronLeftIcon fontSize='large' />
             </IconButton>
           )
         }
@@ -278,14 +328,16 @@ const SortList = (props: SortListType) => {
           ))
         }
       </Toolbar>
-      <div>
-        {sortList.map((el, index) => (
-          <div key={index} onClick={() => onSelectMusic(el)}>
-            <h3>{el.music_title}</h3>
-            <p>{`${el.artist_name} / ${el.unit_name.unit} × ${el.unit_name.feat}`}</p>
-          </div>
+      <List className='invisible-scroll' sx={{marginRight: '10px'}}>
+        {sortList.map(el => (
+          <MusicCard
+            key={el.music_title}
+            musicInfo={el}
+            onSelect={() => onSelectMusic(el)}
+            unitColor={getUnitColor(el.id)}
+          />
         ))}
-      </div>
+      </List>
     </div>
   )
 }
@@ -323,7 +375,7 @@ const PrskMusic = () => {
           {
             currentMusic ? (
               <>
-                <SortList
+                <MusicList
                   onSelectMusic={selectMusic}
                 />
                 <PlayingMusic

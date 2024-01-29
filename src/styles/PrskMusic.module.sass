@@ -11,7 +11,7 @@
     justify-content: space-evenly
     align-items: center
 
-.sortList
+.musicList
   display: flex
   min-width: 500px
   height: 100%
@@ -35,6 +35,48 @@
 
     img
       width: 100%
+
+@keyframes textScroll
+  0%
+    transform: translateX(39%)
+  100%
+    transform: translateX(-120%)
+
+.musicCard
+  display: flex
+  flex-direction: column
+  width: 450px
+
+  .musicCardHeader
+    width: 100%
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+    .webHorizon
+      border-top: 1.5px solid
+      width: 70%
+
+    .artistInfo
+      display: block
+      margin-top: 5px
+
+  .scrollText
+    max-width: 100%
+
+    label
+      display: block
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+  &:hover .scrollText label,
+  &:active .scrollText label,
+  &:focus .scrollText label
+    max-width: none
+    overflow: auto
+    overflow: visible
+    animation: textScroll 10s linear infinite
 
 .playingMusic
   width: 390px
