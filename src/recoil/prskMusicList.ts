@@ -22,6 +22,7 @@ export const MOREMOREJUMP = 'more_more_jump'
 export const VIVIDBADSQUARE = 'vivid_bad_square'
 export const WONDERLANDS_SHOWTIME = 'wonderlands_showtime'
 export const NIGHTCODE = 'night_code'
+export const LEADERS = 'leaders'
 
 export const prskMusicList = atom<PrskMusicListType[]>({
   key: "prsk music list",
@@ -51,7 +52,7 @@ export const sortMusicList = selector({
 
     const res: PrskMusicListType[] = []
     for(let i = 0; i < musicList.length; ++i) {
-      if(selectedUnit === musicList[i].id) res.push(musicList[i])
+      if(selectedUnit === musicList[i].id || LEADERS === musicList[i].id) res.push(musicList[i])
     }
 
     return res
